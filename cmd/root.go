@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"github.com/spf13/cobra"
 	"io/ioutil"
-	"log"
 	"os"
 	"os/user"
 	"path/filepath"
@@ -35,13 +34,15 @@ var rootCmd = &cobra.Command{
 		// Get the directory where the binary was called from
 		currentBinLocation, err := filepath.Abs(filepath.Dir(os.Args[0]))
 		if err != nil {
-			log.Fatal(err)
+			fmt.Printf("Could get current BML binary location\nERROR: %s\n", err.Error())
+			return
 		}
 
 		// Get the directory of where the binary should be installed for this user
 		usr, err := user.Current()
 		if err != nil {
-			log.Fatal(err)
+			fmt.Printf("Could find current user\nERROR: %s\n", err.Error())
+			return
 		}
 		installationBinLocation := fmt.Sprintf("%s/.BML_Installation", usr.HomeDir)
 
