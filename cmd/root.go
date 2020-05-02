@@ -4,13 +4,13 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/manifoldco/promptui"
 	"github.com/spf13/cobra"
 	"io/ioutil"
 	"os"
 	"os/user"
 	"path/filepath"
 	"strings"
-	"github.com/manifoldco/promptui"
 )
 
 var bookmarkList = make([]Bookmark, 0)
@@ -144,7 +144,7 @@ Have you executed "BML install" command?`+"\n", currentBinLocation, installation
 			}
 
 			template := &promptui.SelectTemplates{
-				Active:   "{{.Name | "+ activeColor +"}}",
+				Active:   "{{.Name | " + activeColor + "}}",
 				Inactive: "{{.Name}}",
 				Selected: "{{.Name}}",
 				Details: `
@@ -153,8 +153,12 @@ Have you executed "BML install" command?`+"\n", currentBinLocation, installation
 {{ "Path:" | faint }}	{{ .Path }}`,
 			}
 
+			label := "Bookmark List"
+			if removeFlag {
+				label = "Bookmark List - Remove"
+			}
 			prompt := promptui.Select{
-				Label:             "Bookmark List",
+				Label:             label,
 				Items:             bookmarkList,
 				Size:              10,
 				Searcher:          searcher,
@@ -165,7 +169,7 @@ Have you executed "BML install" command?`+"\n", currentBinLocation, installation
 			i, _, err := prompt.Run()
 
 			if err != nil {
-				fmt.Printf("Failed in prompt selection %v\n", err)
+				fmt.Printf("Bookmark Selection Cancelled %v\n", err)
 				return
 			}
 
@@ -174,9 +178,9 @@ Have you executed "BML install" command?`+"\n", currentBinLocation, installation
 				fmt.Printf("Removing Bookmark: [%s] PATH: %s\n", bookmarkList[i].Name, bookmarkList[i].Path)
 
 				// Remove bookmark from list
-				for i := range bookmarkList {
-					if bookmarkList[i].Name == bookmarkList[i].Name {
-						bookmarkList = append(bookmarkList[:i], bookmarkList[i+1:]...)
+				for index := range bookmarkList {
+					if bookmarkList[index].Name == bookmarkList[i].Name {
+						bookmarkList = append(bookmarkList[:index], bookmarkList[index+1:]...)
 						break
 					}
 				}
