@@ -170,7 +170,7 @@ Have you executed "BML install" command?`+"\n", currentBinLocation, installation
 
 			if err != nil {
 				fmt.Printf("Bookmark Selection Cancelled %v\n", err)
-				return
+				os.Exit(1)
 			}
 
 			// Remove bookmark
@@ -202,11 +202,11 @@ Have you executed "BML install" command?`+"\n", currentBinLocation, installation
 				if fi, err := os.Stat(bookmarkList[i].Path); os.IsNotExist(err) {
 					// Path does not exist
 					fmt.Printf("Failed changing working directory: Path does not exist\n")
-					return
+					os.Exit(1)
 				} else if !fi.IsDir() {
 					// Path is not a Dir
 					fmt.Printf("Failed changing working directory: Path is not a directory\n")
-					return
+					os.Exit(1)
 				}
 
 				// Write to file, this is just a file where target will be written to.
@@ -214,13 +214,13 @@ Have you executed "BML install" command?`+"\n", currentBinLocation, installation
 				file, err := os.Create("/tmp/.SuperImportantTargetForBookmarks.clown")
 				if err != nil {
 					fmt.Printf("Failed changing working directory: Could not create target\n")
-					return
+					os.Exit(1)
 				}
 				defer file.Close()
 
 				if _, err := file.WriteString(bookmarkList[i].Path); err != nil {
 					fmt.Printf("Failed changing working directory: Could not write target\n")
-					return
+					os.Exit(1)
 				}
 			}
 		}

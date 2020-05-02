@@ -129,8 +129,9 @@ function bml() {
 	echo "remove: removes a bookmark from list"
 	echo "uninstall: uninstalls all traces of BML"
   else
-    %s/BML
-    cd "$(cat /tmp/.SuperImportantTargetForBookmarks.clown)"
+	if %s/BML ; then
+		cd "$(cat /tmp/.SuperImportantTargetForBookmarks.clown)"
+	fi
   fi
 }`, installationBinLocation, installationBinLocation, installationBinLocation, installationBinLocation))
 		if err != nil {
