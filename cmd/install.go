@@ -116,11 +116,23 @@ function bml() {
   if [ "$1" = "new" ];
   then
     %s/BML --new
+  elif [ "$1" = "remove" ];
+  then
+    %s/BML --remove
+  elif [ "$1" = "uninstall" ];
+  then
+    %s/BML uninstall
+  elif [ "$1" = "help" ];
+  then
+    echo "Supported Commands:".
+	echo "new: creates new bookmark entry at your current working directory"
+	echo "remove: removes a bookmark from list"
+	echo "uninstall: uninstalls all traces of BML"
   else
     %s/BML
     cd "$(cat /tmp/.SuperImportantTargetForBookmarks.clown)"
   fi
-}`, installationBinLocation, installationBinLocation))
+}`, installationBinLocation, installationBinLocation, installationBinLocation, installationBinLocation))
 		if err != nil {
 			fmt.Println("┗ Error - Could write bml command to " + usr.HomeDir + "/.bashrc : " + err.Error())
 			return
